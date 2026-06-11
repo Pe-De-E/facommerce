@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import { Minus, Plus, Trash2 } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
+import { formatPrice } from '@/utils';
 import { Button } from '@/components/ui/button';
 
 const CartLineItem = ({ item }) => {
@@ -24,7 +25,7 @@ const CartLineItem = ({ item }) => {
         >
           {product.title}
         </Link>
-        <p className='text-sm text-muted-foreground'>${product.price.toFixed(2)}</p>
+        <p className='text-sm text-muted-foreground'>{formatPrice(product.price)}</p>
 
         <div className='flex items-center gap-2'>
           <Button
@@ -59,7 +60,7 @@ const CartLineItem = ({ item }) => {
       </div>
 
       <p className='text-sm font-semibold tabular-nums'>
-        ${(product.price * quantity).toFixed(2)}
+        {formatPrice(product.price * quantity)}
       </p>
     </div>
   );

@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import { ShoppingCart, Trash2 } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
+import { formatPrice } from '@/utils';
 import { CartLineItem } from '@/components';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -53,7 +54,7 @@ const Cart = () => {
 
         <div className='flex items-center justify-between text-lg font-semibold'>
           <span>Total</span>
-          <span className='tabular-nums'>${totalPrice.toFixed(2)}</span>
+          <span className='tabular-nums'>{formatPrice(totalPrice)}</span>
         </div>
 
         <div className='flex flex-col gap-2 sm:flex-row sm:justify-end'>

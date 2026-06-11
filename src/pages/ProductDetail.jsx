@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ArrowLeft, ShoppingCart, Star } from 'lucide-react';
 import { getProduct } from '@/api/products';
 import { useCart } from '@/context/cart-context';
+import { formatPrice } from '@/utils';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -71,7 +72,7 @@ const ProductDetail = () => {
               {product.rating.rate} ({product.rating.count} reviews)
             </div>
 
-            <p className='text-2xl font-semibold'>${product.price.toFixed(2)}</p>
+            <p className='text-2xl font-semibold'>{formatPrice(product.price)}</p>
 
             <Separator />
 

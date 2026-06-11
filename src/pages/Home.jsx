@@ -2,6 +2,7 @@ import { Link } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import { getProducts } from '@/api/products';
 import { cn } from '@/lib/utils';
+import { formatPrice } from '@/utils';
 import { Badge } from '@/components/ui/badge';
 import { buttonVariants } from '@/components/ui/button';
 import {
@@ -78,7 +79,7 @@ const Home = () => {
                   {product.category}
                 </Badge>
                 <CardTitle className='line-clamp-2'>{product.title}</CardTitle>
-                <p className='text-lg font-semibold'>${product.price.toFixed(2)}</p>
+                <p className='text-lg font-semibold'>{formatPrice(product.price)}</p>
               </CardContent>
               <CardFooter>
                 <span className={cn(buttonVariants(), 'w-full')}>View Details</span>
