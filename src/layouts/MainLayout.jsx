@@ -1,7 +1,7 @@
 import { Link, NavLink, Outlet } from 'react-router';
 import { ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import CartSheet from '@/components/CartSheet';
+import { CartSheet } from '@/components';
 
 const MainLayout = () => {
   return (

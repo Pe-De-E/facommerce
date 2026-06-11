@@ -1,8 +1,6 @@
 import { Route, Routes } from 'react-router';
-import MainLayout from './layouts/MainLayout';
-import Home from './pages/Home';
-import Cart from './pages/Cart';
-import ProductDetail from './pages/ProductDetail';
+import { MainLayout } from '@/layouts';
+import { Home, Cart, ProductDetail } from '@/pages';
 
 function App() {
   return (

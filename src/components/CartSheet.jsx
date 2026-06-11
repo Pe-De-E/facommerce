@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 import { ShoppingCart } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
-import CartLineItem from '@/components/CartLineItem';
+import CartLineItem from './CartLineItem';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import {
