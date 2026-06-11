@@ -61,7 +61,7 @@ const Home = () => {
           <Link
             key={product.id}
             to={`/products/${product.id}`}
-            className='group rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+            className='group rounded-xl hover:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
           >
             <Card className='flex h-full flex-col transition-shadow group-hover:shadow-md'>
               <CardHeader>
@@ -69,7 +69,7 @@ const Home = () => {
                   <img
                     src={product.image}
                     alt={product.title}
-                    className='max-h-full max-w-full object-contain transition-transform duration-300 group-hover:-translate-y-4 group-hover:scale-125 group-hover:drop-shadow-xl'
+                    className='max-h-full max-w-full object-contain transition-transform duration-300 group-hover:z-10 group-hover:-translate-y-14 group-hover:scale-[1.4] group-hover:drop-shadow-xl'
                   />
                 </div>
               </CardHeader>
