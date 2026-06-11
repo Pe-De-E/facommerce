@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import { ArrowLeft, ShoppingCart, Star } from 'lucide-react';
 import { getProduct } from '@/api/products';
+import { useCart } from '@/context/cart-context';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -9,6 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const { addItem } = useCart();
 
   const {
     data: product,
@@ -77,7 +79,11 @@ const ProductDetail = () => {
               {product.description}
             </p>
 
-            <Button size='lg' className='w-full sm:w-auto'>
+            <Button
+              size='lg'
+              className='w-full sm:w-auto'
+              onClick={() => addItem(product)}
+            >
               <ShoppingCart className='size-4' />
               Add to Cart
             </Button>
