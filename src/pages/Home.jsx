@@ -69,7 +69,7 @@ const Home = () => {
                   <img
                     src={product.image}
                     alt={product.title}
-                    className='max-h-full max-w-full object-contain'
+                    className='max-h-full max-w-full object-contain transition-transform duration-300 group-hover:-translate-y-4 group-hover:scale-125 group-hover:drop-shadow-xl'
                   />
                 </div>
               </CardHeader>
