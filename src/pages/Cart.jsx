@@ -1,13 +1,21 @@
 import { Link } from 'react-router';
-import { ShoppingCart, Trash2 } from 'lucide-react';
+import { Minus, Plus, ShoppingCart, Trash2 } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
 import { formatPrice } from '@/utils';
-import { CartLineItem } from '@/components';
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 const Cart = () => {
-  const { items, totalCount, totalPrice, clearCart } = useCart();
+  const { items, totalCount, totalPrice, updateQuantity, removeItem, clearCart } =
+    useCart();
 
   if (items.length === 0) {
     return (
@@ -45,24 +53,105 @@ const Cart = () => {
         </Button>
       </div>
 
-      <div className='mx-auto max-w-2xl space-y-4 rounded-lg border p-6'>
-        {items.map((item) => (
-          <CartLineItem key={item.product.id} item={item} />
-        ))}
+      <div className='rounded-lg border'>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Product</TableHead>
+              <TableHead className='text-right'>Price</TableHead>
+              <TableHead className='text-center'>Quantity</TableHead>
+              <TableHead className='text-right'>Sum</TableHead>
+              <TableHead className='w-12' />
+            </TableRow>
+          </TableHeader>
 
-        <Separator />
+          <TableBody>
+            {items.map(({ product, quantity }) => (
+              <TableRow key={product.id}>
+                <TableCell>
+                  <Link
+                    to={`/products/${product.id}`}
+                    className='flex items-center gap-3 hover:underline'
+                  >
+                    <span className='flex size-12 shrink-0 items-center justify-center rounded-md border bg-white p-1'>
+                      <img
+                        src={product.image}
+                        alt={product.title}
+                        className='max-h-full max-w-full object-contain'
+                      />
+                    </span>
+                    <span className='line-clamp-2 max-w-xs font-medium'>
+                      {product.title}
+                    </span>
+                  </Link>
+                </TableCell>
 
-        <div className='flex items-center justify-between text-lg font-semibold'>
-          <span>Total</span>
-          <span className='tabular-nums'>{formatPrice(totalPrice)}</span>
-        </div>
+                <TableCell className='text-right tabular-nums'>
+                  {formatPrice(product.price)}
+                </TableCell>
 
-        <div className='flex flex-col gap-2 sm:flex-row sm:justify-end'>
-          <Button asChild variant='outline'>
-            <Link to='/'>Continue Shopping</Link>
-          </Button>
-          <Button>Checkout</Button>
-        </div>
+                <TableCell>
+                  <div className='flex items-center justify-center gap-2'>
+                    <Button
+                      variant='outline'
+                      size='icon'
+                      className='size-7'
+                      aria-label='Decrease quantity'
+                      onClick={() => updateQuantity(product.id, quantity - 1)}
+                    >
+                      <Minus className='size-3' />
+                    </Button>
+                    <span className='w-6 text-center tabular-nums'>{quantity}</span>
+                    <Button
+                      variant='outline'
+                      size='icon'
+                      className='size-7'
+                      aria-label='Increase quantity'
+                      onClick={() => updateQuantity(product.id, quantity + 1)}
+                    >
+                      <Plus className='size-3' />
+                    </Button>
+                  </div>
+                </TableCell>
+
+                <TableCell className='text-right font-medium tabular-nums'>
+                  {formatPrice(product.price * quantity)}
+                </TableCell>
+
+                <TableCell>
+                  <Button
+                    variant='ghost'
+                    size='icon'
+                    className='size-7 text-muted-foreground hover:text-destructive'
+                    aria-label='Remove item'
+                    onClick={() => removeItem(product.id)}
+                  >
+                    <Trash2 className='size-3.5' />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={3} className='font-semibold'>
+                Total
+              </TableCell>
+              <TableCell className='text-right text-lg font-semibold tabular-nums'>
+                {formatPrice(totalPrice)}
+              </TableCell>
+              <TableCell />
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </div>
+
+      <div className='mt-6 flex flex-col gap-2 sm:flex-row sm:justify-end'>
+        <Button asChild variant='outline'>
+          <Link to='/'>Continue Shopping</Link>
+        </Button>
+        <Button>Checkout</Button>
       </div>
     </section>
   );
