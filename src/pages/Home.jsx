@@ -1,11 +1,40 @@
+import { useState } from 'react';
 import { Link } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
+import { Search } from 'lucide-react';
 import { getCategories, getProducts } from '@/api/products';
 import { ProductCard, ProductCardSkeleton } from '@/components';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 
+const sortProducts = (products, sort) => {
+  const sorted = [...products];
+  switch (sort) {
+    case 'price-asc':
+      return sorted.sort((a, b) => a.price - b.price);
+    case 'price-desc':
+      return sorted.sort((a, b) => b.price - a.price);
+    case 'title':
+      return sorted.sort((a, b) => a.title.localeCompare(b.title));
+    case 'rating':
+      return sorted.sort((a, b) => b.rating.rate - a.rating.rate);
+    default:
+      return sorted;
+  }
+};
+
 const Home = () => {
+  const [search, setSearch] = useState('');
+  const [sort, setSort] = useState('default');
+
   const {
     data: products,
     isPending,
@@ -21,6 +50,14 @@ const Home = () => {
     queryFn: getCategories,
   });
 
+  // Derived during render — no extra state to keep in sync
+  const visibleProducts = sortProducts(
+    (products ?? []).filter((product) =>
+      product.title.toLowerCase().includes(search.trim().toLowerCase()),
+    ),
+    sort,
+  );
+
   return (
     <section>
       <div className='mb-6'>
@@ -30,7 +67,7 @@ const Home = () => {
         </p>
       </div>
 
-      <div className='mb-8 flex flex-wrap gap-2'>
+      <div className='mb-6 flex flex-wrap gap-2'>
         {categories
           ? categories.map((category) => (
               <Link key={category} to={`/category/${encodeURIComponent(category)}`}>
@@ -47,9 +84,41 @@ const Home = () => {
             ))}
       </div>
 
+      <div className='mb-8 flex flex-col gap-3 sm:flex-row'>
+        <div className='relative flex-1'>
+          <Search className='absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground' />
+          <Input
+            type='search'
+            placeholder='Search products…'
+            className='pl-9'
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+
+        <Select value={sort} onValueChange={setSort}>
+          <SelectTrigger className='w-full sm:w-48'>
+            <SelectValue placeholder='Sort by' />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value='default'>Featured</SelectItem>
+            <SelectItem value='price-asc'>Price: Low to High</SelectItem>
+            <SelectItem value='price-desc'>Price: High to Low</SelectItem>
+            <SelectItem value='title'>Title: A–Z</SelectItem>
+            <SelectItem value='rating'>Best Rating</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
       {isError && (
         <div className='rounded-lg border border-destructive/50 p-6 text-center text-destructive'>
           Failed to load products: {error.message}
+        </div>
+      )}
+
+      {!isPending && !isError && visibleProducts.length === 0 && (
+        <div className='rounded-lg border border-dashed py-24 text-center text-muted-foreground'>
+          No products match &quot;{search}&quot;.
         </div>
       )}
 
@@ -57,7 +126,7 @@ const Home = () => {
         {isPending &&
           Array.from({ length: 8 }).map((_, i) => <ProductCardSkeleton key={i} />)}
 
-        {products?.map((product) => (
+        {visibleProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
