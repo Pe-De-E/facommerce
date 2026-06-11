@@ -21,12 +21,17 @@ const CartSheet = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant='ghost' size='icon' className='relative' aria-label='Open cart'>
-          <ShoppingCart className='size-4' />
+        <Button variant='ghost' aria-label='Open cart'>
+          <span className='relative'>
+            <ShoppingCart className='size-4' />
+            {totalCount > 0 && (
+              <span className='absolute -top-2 -right-2 flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground tabular-nums'>
+                {totalCount}
+              </span>
+            )}
+          </span>
           {totalCount > 0 && (
-            <span className='absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground tabular-nums'>
-              {totalCount}
-            </span>
+            <span className='tabular-nums'>{formatPrice(totalPrice)}</span>
           )}
         </Button>
       </SheetTrigger>
