@@ -1,6 +1,7 @@
 import { Link, NavLink, Outlet } from 'react-router';
-import { ShoppingBag, ShoppingCart } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import CartSheet from '@/components/CartSheet';
 
 const MainLayout = () => {
   return (
@@ -16,12 +17,7 @@ const MainLayout = () => {
             <Button asChild variant='ghost'>
               <NavLink to='/'>Shop</NavLink>
             </Button>
-            <Button asChild variant='ghost'>
-              <NavLink to='/cart' className='flex items-center gap-2'>
-                <ShoppingCart className='size-4' />
-                Cart
-              </NavLink>
-            </Button>
+            <CartSheet />
           </nav>
         </div>
       </header>
