@@ -17,7 +17,7 @@ const ProductCard = ({ product }) => {
   const cartItem = items.find((item) => item.product.id === product.id);
 
   return (
-    <Card className='group relative flex h-full flex-col transition-shadow hover:z-10 hover:shadow-md'>
+    <Card className='group relative isolate flex h-full flex-col transition-shadow hover:z-10 hover:shadow-md before:pointer-events-none before:fixed before:inset-0 before:-z-10 before:transition-all before:duration-300 hover:before:bg-background/20 hover:before:backdrop-blur-sm'>
       <CardHeader>
         <div className='flex aspect-square items-center justify-center rounded-md bg-white p-6'>
           <img
