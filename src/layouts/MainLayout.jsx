@@ -1,7 +1,7 @@
 import { Link, NavLink, Outlet } from 'react-router';
 import { ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { CartSheet } from '@/components';
+import { CartSheet, ThemeToggle } from '@/components';
 
 const MainLayout = () => {
   return (
@@ -18,6 +18,7 @@ const MainLayout = () => {
               <NavLink to='/'>Shop</NavLink>
             </Button>
             <CartSheet />
+            <ThemeToggle />
           </nav>
         </div>
       </header>

@@ -23,7 +23,7 @@ const ProductCard = ({ product }) => {
           <img
             src={product.image}
             alt={product.title}
-            className='max-h-full max-w-full object-contain transition-transform duration-300 group-hover:z-10 group-hover:-translate-y-14 group-hover:scale-[1.4] group-hover:drop-shadow-xl'
+            className='max-h-full max-w-full object-contain transition-transform duration-300 group-hover:z-10 group-hover:-translate-y-14 group-hover:scale-[1.4] group-hover:drop-shadow-xl dark:group-hover:translate-y-0 dark:group-hover:scale-105'
           />
         </div>
       </CardHeader>
