@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router';
 import { MainLayout } from '@/layouts';
-import { Home, Cart, ProductDetail } from '@/pages';
+import { Home, Cart, Category, ProductDetail } from '@/pages';
 
 function App() {
   return (
@@ -9,6 +9,7 @@ function App() {
         <Route index element={<Home />} />
 
         <Route path='products/:id' element={<ProductDetail />} />
+        <Route path='category/:name' element={<Category />} />
         <Route path='cart' element={<Cart />} />
 
         <Route
