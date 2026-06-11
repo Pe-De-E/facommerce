@@ -1,8 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CartContext } from './cart-context';
 
+const STORAGE_KEY = 'fakomerce-cart';
+
+const loadCart = () => {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    // Corrupt JSON or storage unavailable — start with an empty cart
+    return [];
+  }
+};
+
 const CartProvider = ({ children }) => {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(loadCart);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  }, [items]);
 
   const addItem = (product, quantity = 1) => {
     setItems((prev) => {
