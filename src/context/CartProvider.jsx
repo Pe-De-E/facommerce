@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import { CartContext } from './cart-context';
 
 const STORAGE_KEY = 'fakomerce-cart';
@@ -32,10 +33,15 @@ const CartProvider = ({ children }) => {
       }
       return [...prev, { product, quantity }];
     });
+    toast.success('Added to cart', { description: product.title });
   };
 
   const removeItem = (productId) => {
+    const item = items.find((item) => item.product.id === productId);
     setItems((prev) => prev.filter((item) => item.product.id !== productId));
+    if (item) {
+      toast.info('Removed from cart', { description: item.product.title });
+    }
   };
 
   const updateQuantity = (productId, quantity) => {
@@ -43,11 +49,20 @@ const CartProvider = ({ children }) => {
       removeItem(productId);
       return;
     }
+    const item = items.find((item) => item.product.id === productId);
     setItems((prev) =>
       prev.map((item) =>
         item.product.id === productId ? { ...item, quantity } : item,
       ),
     );
+    if (item) {
+      const delta = quantity - item.quantity;
+      if (delta > 0) {
+        toast.success(`+${delta}`, { description: item.product.title });
+      } else {
+        toast.error(`${delta}`, { description: item.product.title });
+      }
+    }
   };
 
   const clearCart = () => setItems([]);

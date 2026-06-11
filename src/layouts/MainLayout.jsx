@@ -2,6 +2,7 @@ import { Link, NavLink, Outlet } from 'react-router';
 import { ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CartSheet, ThemeToggle } from '@/components';
+import { Toaster } from '@/components/ui/sonner';
 
 const MainLayout = () => {
   return (
@@ -26,6 +27,8 @@ const MainLayout = () => {
       <main className='container mx-auto flex-1 px-4 py-8'>
         <Outlet />
       </main>
+
+      <Toaster position='bottom-right' />
 
       <footer className='border-t py-6'>
         <div className='container mx-auto px-4 text-center text-sm text-muted-foreground'>
