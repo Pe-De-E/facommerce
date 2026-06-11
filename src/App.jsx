@@ -13,7 +13,15 @@ function App() {
         <Route path='products/:id' element={<ProductDetail />} />
         <Route path='cart' element={<Cart />} />
 
-        <Route path='*' element={<h2>NOT FOUND</h2>} />
+        <Route
+          path='*'
+          element={
+            <div className='py-24 text-center'>
+              <h2 className='text-6xl font-bold tracking-tight'>404</h2>
+              <p className='mt-2 text-muted-foreground'>Page not found</p>
+            </div>
+          }
+        />
       </Route>
     </Routes>
   );
