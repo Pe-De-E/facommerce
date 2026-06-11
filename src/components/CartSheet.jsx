@@ -70,7 +70,13 @@ const CartSheet = () => {
           <Button asChild variant='outline'>
             <Link to='/cart'>View Full Cart</Link>
           </Button>
-          <Button disabled={items.length === 0}>Checkout</Button>
+          {items.length === 0 ? (
+            <Button disabled>Checkout</Button>
+          ) : (
+            <Button asChild>
+              <Link to='/checkout'>Checkout</Link>
+            </Button>
+          )}
         </SheetFooter>
       </SheetContent>
     </Sheet>

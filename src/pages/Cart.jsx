@@ -151,7 +151,9 @@ const Cart = () => {
         <Button asChild variant='outline'>
           <Link to='/'>Continue Shopping</Link>
         </Button>
-        <Button>Checkout</Button>
+        <Button asChild>
+          <Link to='/checkout'>Checkout</Link>
+        </Button>
       </div>
     </section>
   );
