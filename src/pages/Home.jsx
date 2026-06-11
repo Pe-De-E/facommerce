@@ -1,4 +1,6 @@
 import { Link } from 'react-router';
+import { useQuery } from '@tanstack/react-query';
+import { getProducts } from '@/api/products';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -8,16 +10,19 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-
-// Placeholder until real products are fetched
-const products = [
-  { id: 1, title: 'Placeholder Product', price: 19.99, category: 'demo' },
-  { id: 2, title: 'Another Product', price: 49.99, category: 'demo' },
-  { id: 3, title: 'Cool Gadget', price: 9.99, category: 'demo' },
-  { id: 4, title: 'Fancy Thing', price: 99.99, category: 'demo' },
-];
+import { Skeleton } from '@/components/ui/skeleton';
 
 const Home = () => {
+  const {
+    data: products,
+    isPending,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ['products'],
+    queryFn: getProducts,
+  });
+
   return (
     <section>
       <div className='mb-8'>
@@ -27,12 +32,39 @@ const Home = () => {
         </p>
       </div>
 
+      {isError && (
+        <div className='rounded-lg border border-destructive/50 p-6 text-center text-destructive'>
+          Failed to load products: {error.message}
+        </div>
+      )}
+
       <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-        {products.map((product) => (
+        {isPending &&
+          Array.from({ length: 8 }).map((_, i) => (
+            <Card key={i} className='flex flex-col'>
+              <CardHeader>
+                <Skeleton className='aspect-square rounded-md' />
+              </CardHeader>
+              <CardContent className='flex-1 space-y-2'>
+                <Skeleton className='h-5 w-16' />
+                <Skeleton className='h-5 w-full' />
+                <Skeleton className='h-6 w-20' />
+              </CardContent>
+              <CardFooter>
+                <Skeleton className='h-9 w-full' />
+              </CardFooter>
+            </Card>
+          ))}
+
+        {products?.map((product) => (
           <Card key={product.id} className='flex flex-col transition-shadow hover:shadow-md'>
             <CardHeader>
-              <div className='flex aspect-square items-center justify-center rounded-md bg-muted text-muted-foreground'>
-                Image
+              <div className='flex aspect-square items-center justify-center rounded-md bg-white p-6'>
+                <img
+                  src={product.image}
+                  alt={product.title}
+                  className='max-h-full max-w-full object-contain'
+                />
               </div>
             </CardHeader>
             <CardContent className='flex-1 space-y-2'>
