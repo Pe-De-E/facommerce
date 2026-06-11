@@ -1,8 +1,9 @@
 import { Link } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import { getProducts } from '@/api/products';
+import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -57,27 +58,33 @@ const Home = () => {
           ))}
 
         {products?.map((product) => (
-          <Card key={product.id} className='flex flex-col transition-shadow hover:shadow-md'>
-            <CardHeader>
-              <div className='flex aspect-square items-center justify-center rounded-md bg-white p-6'>
-                <img
-                  src={product.image}
-                  alt={product.title}
-                  className='max-h-full max-w-full object-contain'
-                />
-              </div>
-            </CardHeader>
-            <CardContent className='flex-1 space-y-2'>
-              <Badge variant='secondary'>{product.category}</Badge>
-              <CardTitle className='line-clamp-2'>{product.title}</CardTitle>
-              <p className='text-lg font-semibold'>${product.price.toFixed(2)}</p>
-            </CardContent>
-            <CardFooter>
-              <Button asChild className='w-full'>
-                <Link to={`/products/${product.id}`}>View Details</Link>
-              </Button>
-            </CardFooter>
-          </Card>
+          <Link
+            key={product.id}
+            to={`/products/${product.id}`}
+            className='group rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+          >
+            <Card className='flex h-full flex-col transition-shadow group-hover:shadow-md'>
+              <CardHeader>
+                <div className='flex aspect-square items-center justify-center rounded-md bg-white p-6'>
+                  <img
+                    src={product.image}
+                    alt={product.title}
+                    className='max-h-full max-w-full object-contain'
+                  />
+                </div>
+              </CardHeader>
+              <CardContent className='flex-1 space-y-2'>
+                <Badge variant='secondary' className='capitalize'>
+                  {product.category}
+                </Badge>
+                <CardTitle className='line-clamp-2'>{product.title}</CardTitle>
+                <p className='text-lg font-semibold'>${product.price.toFixed(2)}</p>
+              </CardContent>
+              <CardFooter>
+                <span className={cn(buttonVariants(), 'w-full')}>View Details</span>
+              </CardFooter>
+            </Card>
+          </Link>
         ))}
       </div>
     </section>
